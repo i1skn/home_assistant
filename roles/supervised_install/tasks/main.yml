@@ -45,8 +45,6 @@
         ping -c 3 -6 version.home-assistant.io
       check_mode: false
       changed_when: false
-      args:
-        warn: false
   rescue:
     - name: Disable IPv6 to prevent Home Assistant install hang
       ansible.builtin.lineinfile:
@@ -64,8 +62,6 @@
   failed_when: os_agent_latest_url.stdout is not search('os-agent_.*_linux_.*.deb')
   changed_when: false
   check_mode: no
-  args:
-    warn: false
 
 - name: Install os-agent
   apt:
@@ -83,7 +79,8 @@
 # by homeasistant-supervised package installer
 - name: Install homeassistant-supervised
   apt:
-    deb: https://github.com/home-assistant/supervised-installer/releases/latest/download/homeassistant-supervised.deb
+    deb: https://github.com/home-assistant/supervised-installer/releases/download/1.4.3/homeassistant-supervised.deb
+
   async: "{{ supervised_install_deb_timeout }}"
   poll: 10
 
